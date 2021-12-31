@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from project.views import hello, start_page, current_datetime
+from project.views import start_page, current_datetime, hours_ahead
 from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pages/', include('django.contrib.flatpages.urls')),
-    url('^hello/$', hello),
     re_path('^$', start_page),
-    url('^time/$', current_datetime)
+    url('^time/$', current_datetime),
+    url(r'^time/plus/(\d{1,2})/$', hours_ahead)
 ]
