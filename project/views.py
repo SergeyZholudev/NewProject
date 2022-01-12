@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.http import Http404, HttpResponse
 import datetime
 
@@ -7,16 +8,13 @@ def start_page(request):
 
 def current_datetime(request):
     now = datetime.datetime.now()
-    html = "<html><body>Сейчас %s </body></html>" %now
-    return HttpResponse(html)
+    return render( request, 'time_templates/current_datetime.html', {'current_datetime': now} )
 
 def hours_ahead(request, offset):
     try:
-        _offset = int(offset)
+        offset = int(offset)
     except ValueError:
         raise Http404()
 
-    dt = datetime.datetime.now() + datetime.timedelta(hours = _offset)
-    assert True
-    html = "<html><body>Через %s часов будет %s</body><html>" % (offset, dt)
-    return HttpResponse(html)
+    dt = datetime.datetime.now() + datetime.timedelta(hours = offset)
+    return render(request, 'time_templates/time_offset.html', {'next_time': dt, 'offset': offset})
